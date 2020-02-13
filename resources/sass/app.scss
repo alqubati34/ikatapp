@@ -1,0 +1,31 @@
+// Variables
+@import 'variables';
+
+@import "tailwindcss/base";
+
+
+@import "tailwindcss/components";
+
+@import 'themes/light';
+@import 'themes/dark';
+
+@import 'components/button';
+@import 'components/card';
+
+body,
+button {
+    @apply .text-default;
+}
+
+.section {
+    @apply .px-8;
+}
+
+
+@import "tailwindcss/utilities";
+
+
+
+
+
+
