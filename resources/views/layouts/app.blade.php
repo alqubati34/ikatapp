@@ -36,6 +36,18 @@
 
             </a>
         </div>
+
+        <div>
+            <a href="/search">
+                <img src="/images/search.svg" alt="">
+            </a>
+        </div>
+
+        <div>
+            <a href="{{url('/posts')}}">
+                <img src="/images/post.svg" alt="">
+            </a>
+        </div>
     </div>
 
     <!-- Main content -->
@@ -66,13 +78,19 @@
                                             class="flex items-center text-default no-underline text-sm focus:outline-none"
                                             v-pre
                                         >
+{{--                                            <img width="35"--}}
+{{--                                                 class="rounded-full mr-3"--}}
+{{--                                                 src="{{ gravatar_url(auth()->user()->email) }}">--}}
                                             <img width="35"
                                                  class="rounded-full mr-3"
-                                                 src="{{ gravatar_url(auth()->user()->email) }}">
+                                                 src="/images/avatar/{{  Auth::user()->avatar }}">
 
                                             {{ auth()->user()->name }}
                                         </button>
                                     </template>
+
+                                    <a href="{{ route('users.edit' ,Auth::user()->id ) }}"
+                                       class="dropdown-menu-link w-full text-left">Profile</a>
 
                                     <form id="logout-form" method="POST" action="/logout" class="mr-4">
                                         @csrf
@@ -98,6 +116,8 @@
             </main>
         </div>
     </div>
+
+    @yield('scripts')
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>

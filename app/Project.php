@@ -10,6 +10,7 @@ class Project extends Model
 
     protected $guarded = [];
 
+
     public function path()
     {
         return "/projects/{$this->id}";
@@ -32,7 +33,7 @@ class Project extends Model
 
     public function addTask($body)
     {
-        return $this->tasks()->create(compact('body'));
+        return $this->tasks()->create(compact(['body']));
     }
 
     public function activity()
@@ -48,5 +49,10 @@ class Project extends Model
     public function members()
     {
         return $this->belongsToMany(User::class, 'project_members')->withTimestamps();
+    }
+
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class);
     }
 }

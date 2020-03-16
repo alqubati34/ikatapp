@@ -16,6 +16,12 @@
             name="completed"
             onChange="this.form.submit()" {{ $task->completed ? 'checked' : ''}}>
 
+        <input
+            type="date"
+            name="due_date"
+            class="w-full"
+            onchange="this.form.submit()">
+
     </form>
 </div>
 

@@ -17,7 +17,8 @@
                 @csrf
                 <button type="submit" class="text-xs">Delete</button>
             </form>
-            <a href="{{ $project->path().'/edit' }}" class="">Edit</a>
+{{--            <a href="{{ $project->path().'/edit' }}" class="">Edit</a>--}}
+            <a href="{{ route('project.settings', ['project' => $project->id]) }}" class="">Setting</a>
         </footer>
     @endcan
 

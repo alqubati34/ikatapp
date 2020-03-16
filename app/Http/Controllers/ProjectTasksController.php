@@ -2,29 +2,30 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\TaskCommentRequest;
 use App\Project;
 use App\Task;
 use Illuminate\Http\Request;
 
 class ProjectTasksController extends Controller
 {
-    public function show(Project $project,Task $task)
-    {
-        $this->authorize('update', $project);
-
-        return view('tasks.show', compact('task'));
-    }
-
+    use CommentTrait, FileTrait;
 
     public function store(Project $project)
     {
         $this->authorize('update', $project);
 
         request()->validate([
-            'body' => 'required'
+            'body' => 'required',
+            'due_date' => 'nullable'
         ]);
 
-        $project->addTask(request('body'));
+        $project->tasks()->create([
+            'body' => request('body'),
+            'due_date' => request('due_date')
+        ]);
+
+//        $project->addTask(request(['body']));
 
         return redirect($project->path());
     }
@@ -34,35 +35,31 @@ class ProjectTasksController extends Controller
     {
         $this->authorize('update', $task->project);
 
-        $task->update(request()->validate(['body' => 'required']));
+        $task->update(request()->validate([
+            'body' => 'required',
+            'due_date' => 'nullable'
+        ]));
 
         request('completed') ? $task->complete() : $task->incomplete();
 
-        return redirect($task->path());
+        return redirect($project->path());
     }
 
-    public function upload(Project $project,Task $task)
+    public function destroy(Project $project, Task $task)
     {
-        if (request()->hasFile('file'))
-        {
-            $file = request()->file('file');
-            $fileName = uniqid(). '.' . $file->getClientOriginalExtension();
-            $path = $file->storeAs('public\files', $fileName);
-
-            if ($path)
-            {
-                $task->files()->create([
-                   'path' => $fileName
-                ]);
-
-                return response()->json([
-                    'upload_status' => 'success'
-                ], 200);
-            } else {
-                return response()->json([
-                    'upload_status' => 'failed'
-                ], 401);
-            }
-        }
+        $this->authorize('manage', $task->project);
+        $task->delete();
+        return redirect($project->path());
     }
+
+
+
+    //    public function show(Project $project,Task $task)
+//    {
+//        $this->authorize('update', $project);
+//
+//        return view('tasks.show', compact('task'));
+//    }
+
+
 }

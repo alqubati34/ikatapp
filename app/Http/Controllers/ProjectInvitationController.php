@@ -9,6 +9,13 @@ use Illuminate\Http\Request;
 
 class ProjectInvitationController extends Controller
 {
+    public function index()
+    {
+//        $project = $project->members();
+
+        return view('projects.members');
+    }
+
     public function store(Project $project, ProjectInvitationRequest $request)
     {
 //        $this->authorize('update', $project);
@@ -22,6 +29,13 @@ class ProjectInvitationController extends Controller
         $user = User::whereEmail(request('email'))->first();
 
         $project->invite($user);
+
+        return redirect($project->path());
+    }
+
+    public function destroy(Project $project, ProjectInvitationRequest $request)
+    {
+        $request->delete();
 
         return redirect($project->path());
     }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Project;
+use App\Statuses;
 use Illuminate\Http\Request;
 
 
@@ -71,6 +72,10 @@ class ProjectsController extends Controller
         return redirect('/projects');
     }
 
+    public function settings(Project $project)
+    {
+        return view('projects.settings', compact('project'));
+    }
 
     public function validateRequest()
     {

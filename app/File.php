@@ -8,7 +8,7 @@ class File extends Model
 {
     use RecordsActivity;
 
-    protected $guarded = [];
+    protected  $fillable = ['path'];
 
     public function task()
     {
